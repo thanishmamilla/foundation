@@ -11,9 +11,9 @@ export function generatePDF(assignment: any): Promise<Buffer> {
       });
 
       const chunks: Buffer[] = [];
-      doc.on('data', (chunk) => chunks.push(chunk));
+      doc.on('data', (chunk: any) => chunks.push(chunk));
       doc.on('end', () => resolve(Buffer.concat(chunks)));
-      doc.on('error', (err) => reject(err));
+      doc.on('error', (err: any) => reject(err));
 
       const paper = assignment.paper;
       if (!paper) {

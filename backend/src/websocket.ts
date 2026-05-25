@@ -11,8 +11,8 @@ const subscriptions = new Set<ClientSubscription>();
 export function setupWebSocket(server: Server): WebSocketServer {
   const wss = new WebSocketServer({ noServer: true });
 
-  server.on('upgrade', (request, socket, head) => {
-    wss.handleUpgrade(request, socket, head, (ws) => {
+  server.on('upgrade', (request: any, socket: any, head: any) => {
+    wss.handleUpgrade(request, socket, head, (ws: any) => {
       wss.emit('connection', ws, request);
     });
   });
@@ -42,7 +42,7 @@ export function setupWebSocket(server: Server): WebSocketServer {
       }
     });
 
-    ws.on('error', (err) => {
+    ws.on('error', (err: any) => {
       console.error('🔌 WebSocket error:', err);
     });
   });

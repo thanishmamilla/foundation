@@ -102,7 +102,7 @@ export function initWorker(isRedisActive: boolean) {
     }
   );
 
-  worker.on('failed', (job, err) => {
+  worker.on('failed', (job: any, err: any) => {
     console.error(`❌ [BullMQ Worker] Job ${job?.id} failed with error:`, err);
   });
 
