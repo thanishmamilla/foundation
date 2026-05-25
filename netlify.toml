@@ -1,0 +1,9 @@
+[build]
+  # Tell Netlify to look inside the frontend directory
+  base = "frontend"
+
+  # Run the Next.js build command
+  command = "npm run build"
+
+  # Serve the Next.js build output (relative to the base directory)
+  publish = ".next"
