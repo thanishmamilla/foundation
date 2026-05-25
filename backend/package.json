@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon --watch src --watch .env --ext ts --exec tsx src/server.ts",
-    "build": "tsc",
+    "build": "npm install --legacy-peer-deps && tsc",
     "start": "node dist/server.js"
   },
   "dependencies": {
