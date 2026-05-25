@@ -2,25 +2,32 @@
 
 VedaAI is a modern AI-powered question paper and assessment creator built for teachers to quickly draft structured exams with answer keys. The system uses a job queue workflow to run AI generations in the background and pushes updates to the teacher in real time using WebSockets.
 
-## 🚀 Key Features
-
-1. **Structured Assignment Form**: Capture assignment title, due date, additional guidelines, optional file attachment, and dynamic question breakdowns (MCQs, short answer, numerical, etc.).
-2. **AI Question Generation**: Constructs tailored system prompts for Gemini, parses the structured response (JSON), and creates well-spaced questions grouped by Section (A, B, C, etc.) with matching difficulty tags (Easy, Moderate, Hard) and marks.
-3. **Background Job Queue**: Uses **BullMQ** (powered by Redis) for async background worker processing.
-4. **Real-time WebSockets**: Streams generation progress indicators (0% -> 100%) and instant UI updates without manual polling or page reloads.
-5. **Print-ready PDF Export**: Formats exam sheets professionally using `pdfkit` (complete with school headers, student info dotted lines, and section divisions).
-6. **Graceful Fallbacks**:
-   - **Mongoose / MongoDB Failover**: Automatically pivots to a high-speed In-Memory storage service if MongoDB is inactive on the host.
-   - **BullMQ / Redis Failover**: Automatically runs an asynchronous In-Memory scheduler mimicking queues if Redis is offline, allowing immediate reviewer execution out-of-the-box.
-   - **Gemini SDK Failover**: Dynamically generates rich topic-specific papers and answer keys locally if the Gemini API key is not configured.
-
 ---
 
-## 🛠️ Tech Stack
+## 🌟 Standout Features (What Makes This Implementation Special)
 
-- **Frontend**: Next.js (App Router, TypeScript), Zustand (State), Vanilla CSS
-- **Backend**: Node.js, Express (TypeScript), MongoDB/Mongoose, Redis, BullMQ, WebSockets (`ws`), `pdfkit`
-- **AI**: Gemini API (`@google/generative-ai` SDK)
+### 1. 🖨️ Professional Print-Ready PDF Export
+* **High-Fidelity Layout**: Generates standard exam papers with formatted school headers, double-line separators, student info sections (Name, Roll Number, Section), and section-wise splits (Section A, Section B, Section C).
+* **Smart Visibility (Exam vs. Answer Key)**: Difficulty tags (Easy, Moderate, Hard) are **hidden** on the student-facing exam paper (just like a real exam) but **visible** on the teacher's Answer Key sheet.
+* **Stream-Based Buffer**: Generated PDFs are compiled using `pdfkit` and served directly as downloadable streams, ensuring memory efficiency on the server.
+
+### 2. 📱 Flexible & Responsive High-Fidelity UI
+* **Figma-Perfect Design**: Implements modern typography (Inter/Outfit), clean card layouts, custom orange outlines, and high-quality button hover transitions.
+* **Adaptive Navigation**:
+  * **Desktop**: Features a left-hand navigation sidebar with an active state highlighter.
+  * **Mobile**: Automatically collapses into a sleek bottom tab-navigation bar and a floating action button (FAB) for creating new assignments, optimizing viewport real estate.
+* **Interactive Controls**: Users can dynamically build question papers using numeric click counters, live validation (no empty/negative values), and real-time generation progress indicators.
+
+### 3. ⚡ Resilient Backend & Caching
+* **Upstash Redis + BullMQ Queue**: Implements an asynchronous job queue using **BullMQ** to process heavy AI question generation requests off the main thread. This ensures the Node.js server stays highly responsive even under high load.
+* **Secure TLS Connection**: Fully configured to connect to cloud Redis instances (like Upstash) using the secure `rediss://` protocol.
+* **Failover Engine (Graceful Out-of-the-Box Fallbacks)**:
+  * **MongoDB Failover**: If MongoDB is not running locally, the backend automatically switches to a high-speed local In-Memory Database store.
+  * **Redis / BullMQ Failover**: If Redis is offline, the backend executes an asynchronous In-Memory scheduling task mimicking the BullMQ queues, allowing reviewers to test the app instantly without setting up Redis.
+  * **AI Service Failover**: If no Gemini API key is supplied, a procedural mock AI service generates rich topic-appropriate papers and answer keys locally.
+
+### 4. 🧠 Upgraded AI Model & Slicing
+* **Gemini 2.5 Flash Integration**: Upgraded the integration to use the latest `gemini-2.5-flash` model, ensuring fast response times, high structured format adherence, and preventing 404 API errors caused by deprecated model endpoints.
 
 ---
 
@@ -82,11 +89,3 @@ npm install
 npm run dev
 ```
 The Next.js app runs on `http://localhost:3000`. Open it in your web browser.
-
----
-
-## 📖 UI Design Details
-
-- **Assignments Dashboard**: Interactive panels showcasing all papers, active creation badges, card actions (View, Delete), and a responsive layout.
-- **Create Assignment Page**: Includes file-attachment area, date selectors, dynamic question type additions with custom numeric counters, and total question/marks aggregators.
-- **Question Paper Page**: A paper-white exam grid with proper typography, dotted lines for student details, difficulty labels (Easy, Moderate, Hard), and floating banner action bars to download the PDF document.
