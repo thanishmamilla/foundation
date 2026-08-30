@@ -20,8 +20,9 @@ export default function Sidebar() {
 
   const navItems = [
     { label: 'Home', icon: Home, path: '/' },
-    { label: 'My Groups', icon: Users, path: '/groups' },
+    { label: 'My Classroom', icon: Users, path: '/classroom' },
     { label: 'Assignments', icon: FileText, path: '/', badge: assignments.length },
+    { label: 'Exams', icon: FileText, path: '/exams' },
     { label: "AI Teacher's Toolkit", icon: Wrench, path: '/toolkit' },
     { label: 'My Library', icon: Library, path: '/library' },
   ];

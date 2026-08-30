@@ -206,6 +206,13 @@ app.get('/api/assignments/:id/pdf', async (req: Request, res: Response) => {
   }
 });
 
+// 7. Evaluate Question Paper and Answer Sheet
+import { upload, evaluateHandler } from './routes/evaluate.js';
+app.post('/api/evaluate', upload.fields([
+  { name: 'questionPaper', maxCount: 1 },
+  { name: 'answerSheet', maxCount: 1 }
+]), evaluateHandler);
+
 // Create Server
 const server = createServer(app);
 

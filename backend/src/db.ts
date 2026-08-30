@@ -6,7 +6,7 @@ dotenv.config();
 let isConnected = false;
 
 export async function connectDB(): Promise<boolean> {
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/vedaai';
+  const uri = process.env.MONGODB_URI || 'mongodb+srv://thanishmamilla:thanish123@cluster0.1x0tmmk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
   
   try {
     mongoose.set('strictQuery', true);
